@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f6f6f6">
+
+    <!-- AppBar 는 상단 Toolbar 내의 오른쪽 점3개 메뉴 -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/search_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/bg_top"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            app:layout_scrollFlags="scroll|snap|enterAlways"/>
+        <!-- app:layout_scrollFlags="scroll|snap|enterAlways" -->
+        <!-- layout_scrollFlags 은 스크롤 시 상단을 밀어올리는 옵션-->
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/search_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_top"
+            app:tabGravity="fill"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="#E8BF6A"
+            app:tabTextColor="#fff"
+            app:layout_scrollFlags="scroll|snap|enterAlways" />
+        <!-- layout_scrollFlags 은 스크롤 시 상단을 밀어올리는 옵션-->
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/search_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </androidx.viewpager.widget.ViewPager>
+    <!--
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_headerlist_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+    -->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
