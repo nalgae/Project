@@ -36,3 +36,6 @@ com.squareup.okhttp3
 com.github.bumptech.glide
 
 ---
+
+https://github.com/nalgae/Project/blob/master/sample1.png
+https://github.com/nalgae/Project/blob/master/sample2.png
