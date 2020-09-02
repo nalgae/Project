@@ -16,7 +16,7 @@ Local TAB 에서 체크해제 되어진 항목은 즉시 삭제되고, API TAB �
 API TAB 에서 검색어 입력시 바로 검색이 이루어짐.
 Local TAB 에 추가된 항목도 검색가능.
 
--
+---
 사용언어 : Kotlin
 
 사용LIB : 
@@ -34,4 +34,5 @@ com.squareup.retrofit2
 com.squareup.okhttp3
 
 com.github.bumptech.glide
--
+
+---
