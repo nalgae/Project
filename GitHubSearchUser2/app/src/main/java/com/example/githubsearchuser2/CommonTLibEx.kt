@@ -27,7 +27,4 @@ class CommonTLibEx {
         intent.putExtra("position", position)
         mContext.sendBroadcast(intent)
     }
-    companion object {
-        private val TAG = CommonTLibEx::class.java.simpleName
-    }
 }

@@ -1,6 +1,5 @@
 package com.example.githubsearchuser2
 
-import android.app.DatePickerDialog
 import android.app.SearchManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -16,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.multidex.MultiDex
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
@@ -63,7 +61,7 @@ class GCheckListSearchActivity : AppCompatActivity() {
         eventTypesDB = EventsDatabase.getInstance(mContext).EventTypesDao()
 
         setContentView(R.layout.gchecklist_activity_search)
-        mSnackbarLayout = findViewById(android.R.id.content) // 아무 View 레이아웃이어도 된다.
+        mSnackbarLayout = findViewById(android.R.id.content)
         registerReceiver(mGCheckListSearchAutoRunReceiver, IntentFilter(NexBroadcastReceiver.CHECKLIST_SEARCH_AUTORUN_REFRESH))
 
         // 최상단 Toolbar 에 대한 선언
@@ -101,9 +99,8 @@ class GCheckListSearchActivity : AppCompatActivity() {
         // ---------------------------------------------------------------------------------
         // 외부호출 검색
         // bundle ---------------------------------------------
-        val newIntent = intent
-        if (newIntent.hasExtra("AutoRun")) strAutoRun = newIntent.getStringExtra("AutoRun")
-        if (newIntent.hasExtra("QueryText")) strQueryText = newIntent.getStringExtra("QueryText")
+        if (intent.hasExtra("AutoRun")) strAutoRun = intent.getStringExtra("AutoRun") as String
+        if (intent.hasExtra("QueryText")) strQueryText = intent.getStringExtra("QueryText") as String
         if (!strAutoRun.isEmpty() && strAutoRun == "1") {
             val intent = Intent(NexBroadcastReceiver.CHECKLIST_SEARCH_AUTORUN_REFRESH)
             mContext.sendBroadcast(intent)
@@ -140,10 +137,10 @@ class GCheckListSearchActivity : AppCompatActivity() {
         }
         // -----------------------------------------------------------------------------------------
 
-        return true // 반드시 true를 리턴. false를 리턴하면, 메뉴가 표시되지 않는다.
+        return true
     }
 
-    // ToolBar // 추가된 소스, ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
+    // ToolBar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 /*            android.R.id.home -> {
@@ -193,10 +190,10 @@ class GCheckListSearchActivity : AppCompatActivity() {
         viewPager.adapter = adapter
 
         // 시작시 원하는 viewpage 로 이동하기 ------------------------------------------
-//11        viewPager.setCurrentItem( SharedPrefSetting(mContext).SearchTabNumber ) // 환경설정에 현재 TAB 위치 가져옴
+//        viewPager.setCurrentItem( SharedPrefSetting(mContext).SearchTabNumber ) // 환경설정에 현재 TAB 위치 가져옴
         mTabLayout?.setupWithViewPager(viewPager)
-//11        if( SharedPrefSetting(mContext).SearchTabNumber == 0 ) iSearchType = 0 // 문자검색
-//11        else iSearchType = 1 // 이미지검색
+//        if( SharedPrefSetting(mContext).SearchTabNumber == 0 ) iSearchType = 0 // 문자검색
+//        else iSearchType = 1 // 이미지검색
         // --------------------------------------------------------------------------------------
     }
 

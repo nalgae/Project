@@ -54,7 +54,6 @@ class GCheckListSearchTextFragment : Fragment() {
 
         var mTwoListRecyclerView: RecyclerView? = null
         var mTwoAdapterHeaderList: MutableList<GCheckListSearchHeaderRow>? = null
-        //private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
 
         fun LoadCheckListHeaderList(strQuery: String) {
             LoadCheckListHeaderListSub(strQuery)
@@ -95,13 +94,10 @@ class GCheckListSearchTextFragment : Fragment() {
                 // Header List
                 mTwoListRecyclerView?.adapter = MyRecyclerAdapter(mTwoAdapterHeaderList!!, R.layout.gchecklist_header_local_row)
 
-                // 아래 TEST 더 해볼 것, 검색 이후 RecycleView 화면 리스트가 잘 갱신이 안되는 현상이 있어 아래 함수 실행해 본다.
                 if( iArraySize > 0 ) {
                     val mCommonTLibEx = CommonTLibEx()
                     mContext?.let { mCommonTLibEx.CheckListSearchUserListRangeChangedReceiver(it, iArraySize) }
                 }
-
-                //mSwipeRefreshLayout?.isRefreshing = false
             }
 
         }
@@ -114,7 +110,6 @@ class GCheckListSearchTextFragment : Fragment() {
         override fun onReceive(context: Context, intent: Intent) {
             val iCount = intent.getIntExtra("count",0)
 
-            //mTwoListRecyclerView?.adapter!!.notifyItemRangeChanged(0, iCount) // 클래쉬 발생
             mTwoListRecyclerView?.adapter!!.notifyItemRangeChanged(0, 1000)
         }
     }
@@ -155,15 +150,6 @@ class GCheckListSearchTextFragment : Fragment() {
         mTwoListRecyclerView!!.layoutManager = LinearLayoutManager(mContext)
         mTwoListRecyclerView!!.itemAnimator = DefaultItemAnimator()
         mTwoListRecyclerView?.adapter = MyRecyclerAdapter(mTwoAdapterHeaderList!!, R.layout.gchecklist_header_local_row)
-
-        // SwipeRefresh 처리부분(Pull to Refresh)
-/*        mSwipeRefreshLayout = getView()?.findViewById(R.id.swipe_layout_local)
-        mSwipeRefreshLayout!!.setOnRefreshListener {
-            LoadCheckListHeaderList()
-        }
-        // SwipeRefresh 색깔정의(Pull to Refresh)
-        mSwipeRefreshLayout!!.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_blue_bright)
-*/
 
         LoadCheckListHeaderList("")
     }
@@ -244,7 +230,6 @@ class GCheckListSearchTextFragment : Fragment() {
                 eventTypesDB.deleteEventTypesWithGCheckListId(node_id)
                 mTwoAdapterHeaderList?.removeAt(position)
 
-                // 보여지는 View 에서 삭제 시, 이곳에서 샐행하면 적용안된다.브로드캐스트 이용해서 삭제 시 성공된다.
                 val mCommonTLibEx = CommonTLibEx()
                 mCommonTLibEx.CheckListNotifyItemRemoveReceiver(GCheckListSearchActivity.mContext, position)
             }
@@ -253,24 +238,17 @@ class GCheckListSearchTextFragment : Fragment() {
         fun uncheckGitHubSearchUserSync(node_id: String) {
             val iCount: Int? = GCheckListSearchFragment2.adapter.currentList?.size
             for( i in 0 until iCount!!) {
-                var curList = GCheckListSearchFragment2.adapter.currentList?.get(i)
+                val curList = GCheckListSearchFragment2.adapter.currentList?.get(i)
                 if (curList != null) {
                     if( curList.node_id == node_id) {
                         curList.bCheckFlag = false
 
-                        // GitHubSearchUser List 화면에 갱신을 위한 브로드캐스트 리시버(안됨)
                         val mCommonTLibEx = CommonTLibEx()
                         mCommonTLibEx.GitHubSearchUserListRefreshReceiver(GCheckListSearchActivity.mContext, i)
                         break
                     }
                 }
             }
-            /*val locidx = GCheckListSearchFragment2.model.posts.value!!.indexOf(node_id) // paginglib livedata 에서 읽어온 데이터 중에 해당 데이터 검색해서 index 반환
-            val item = GCheckListSearchFragment2.model.posts.value!!.get(locidx) // index 에 해당하는 데이터 읽음
-            if (item != null) {
-                item.bCheckFlag = false // paginglib livedata 값을 변경
-                //itemView.tag = item
-            }*/
         }
     }
 

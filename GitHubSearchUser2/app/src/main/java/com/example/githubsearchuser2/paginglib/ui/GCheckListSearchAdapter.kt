@@ -68,7 +68,7 @@ class GCheckListSearchAdapter(
         return if (hasExtraRow() && position == itemCount - 1) {
             R.layout.network_state_item
         } else {
-            R.layout.gchecklist_header_api_row // reddit_post_item
+            R.layout.gchecklist_header_api_row
         }
     }
 
@@ -100,7 +100,6 @@ class GCheckListSearchAdapter(
 
             override fun areItemsTheSame(oldItem: WebClientPostCheckListSearch, newItem: WebClientPostCheckListSearch): Boolean =
                     oldItem.rnumindex == newItem.rnumindex
-//11            oldItem.name == newItem.name
 
             override fun getChangePayload(oldItem: WebClientPostCheckListSearch, newItem: WebClientPostCheckListSearch): Any? {
                 return if (sameExceptScore(oldItem, newItem)) {
@@ -113,7 +112,6 @@ class GCheckListSearchAdapter(
 
         private fun sameExceptScore(oldItem: WebClientPostCheckListSearch, newItem: WebClientPostCheckListSearch): Boolean {
             return true
-//            return oldItem.copy(score = newItem.score) == newItem
         }
     }
 }

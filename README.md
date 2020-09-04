@@ -1,6 +1,6 @@
 GitHub 에서 사용자를 검색하는 Test APP 입니다.
 
-GitHub API v2 를 연동하고 있으며, JSON Restfull API 방식으로 자료를 주고받습니다.
+GitHub API v3 를 연동하고 있으며, JSON Restfull API 방식으로 자료를 주고받습니다.
 
 
 검색키를 입력하면 검색 단어별로 즉시 검색이 되고, 아래 TAB 에 검색 결과를 출력합니다.

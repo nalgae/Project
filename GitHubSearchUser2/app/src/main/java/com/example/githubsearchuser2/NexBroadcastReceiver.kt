@@ -6,21 +6,7 @@ import android.content.Intent
 
 class NexBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val intentAction = intent.action
-        //		Log.e(TAG, "onReceive : " + intentAction.toString()); // xxx
-
-/*		if (intentAction.equals(TALK_CONNECTION_CLOSED)) {
-		    CharSequence message = intent.getCharSequenceExtra("message");
-//			Log.d(TAG, "onReceive message : " + message.toString()); // xxx
-
-		} else if (intentAction.equals(TALK_CONNECTION_RESTART)) { // R20140808A RECONNECT
-//	    	context.startService(new Intent(context, NexService.class));
-
-		} else if (intentAction.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-		    if (intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false)) {
-//		    	context.stopService(new Intent(context, NexService.class));
-		    }
-		}*/
+        // not use
     }
 
     companion object {

@@ -31,8 +31,7 @@ class GCheckListSearchFragment2 : Fragment() {
     companion object {
         var mContext: Context? = null
         const val KEY_REPOSITORY_TYPE = "GCheckListSearch"
-        //private lateinit var model: GCheckListSearchSubWebClientViewModel // old code
-        lateinit var model: GCheckListSearchSubWebClientViewModel // new code (*주의*) paginglib livedata 를 직접 변경하지 않는 이상 private 로 선언할 것 !!!  1/2
+        lateinit var model: GCheckListSearchSubWebClientViewModel
         lateinit var adapter: GCheckListSearchAdapter
 
         fun intentFor(context: Context, type: GCheckListSearchPostRepository.Type): Intent {
@@ -52,14 +51,11 @@ class GCheckListSearchFragment2 : Fragment() {
     internal var strSearchDate: String? = null
 
 
-    // GitHubSearchUser List 화면에 갱신(안됨)
     private val mGitHubSearchUserListRefreshReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val iPosition = intent.getIntExtra("position",0)
-            //LoadTimeLineHeaderList("", "") // refresh 할 때 예외오류 발생. 201909 model.refresh()로 사용
 
-            adapter!!.notifyItemRangeChanged(iPosition, 1)
-            //model.refresh() // 화면에 갱신(안됨)
+            adapter.notifyItemRangeChanged(iPosition, 1)
         }
     }
 
@@ -72,7 +68,7 @@ class GCheckListSearchFragment2 : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         mContext = activity
-        // 20191108 차후 필요 시 사용
+
         requireActivity().registerReceiver(mGitHubSearchUserListRefreshReceiver, IntentFilter(NexBroadcastReceiver.GITHUBSEARCHUSERLIST_REFRESH))
 
         model = getViewModel()
@@ -116,13 +112,8 @@ class GCheckListSearchFragment2 : Fragment() {
             swipe_layout.isRefreshing = it == NetworkState.LOADING
         })
         swipe_layout.setOnRefreshListener {
-            model.refresh() // 정상작동 // origin : 이 함수로 refresh 가 정상적으로 되지 않는다.
-            //LoadTimeLineHeaderList("", "") // new : 그래서 다음코드로 처리한다. // 20190731 refresh 할 때 예외오류 발생. model.refresh()로 사용
+            model.refresh()
         }
-
-        // SwipeRefresh 색깔정의(Pull to Regresh)
-//        mSwipeRefreshLayout = view!!.findViewById(R.id.swipe_layout)
-//        mSwipeRefreshLayout!!.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_blue_bright)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -131,24 +122,15 @@ class GCheckListSearchFragment2 : Fragment() {
     }
 
     private fun initSearch() {
-/*        ililaddcontent.setOnClickListener {
-            val newIntent = Intent(activity, GCheckListWriteActivity::class.java)
-            startActivity(newIntent)
-        }*/
-
-        // 다른 버튼 이벤트 설정은 GCheckListOneViewHolder 정의
+        // not use
     }
 
-    // 처음엔 refresh 용 으로 사용하였으나, 현재는 사용하지 않음
+    // not use
     private fun LoadTimeLineHeaderList(pageKey: Int, limitKey: Int, searchUser: String) {
-//        input.text.trim().toString().let {
-//            if (it.isNotEmpty()) {
         if (model.showSubWebDataProcess(TalkMobileApplication.strMY_WEBID, pageKey, limitKey, searchUser)) {
             search_asisheaderlist_item.scrollToPosition(0)
             (search_asisheaderlist_item.adapter as? GCheckListSearchAdapter)?.submitList(null)
         }
-//            }
-//        }
     }
 
     override fun onDetach() {

@@ -31,8 +31,7 @@ import java.io.IOException
 import java.util.concurrent.Executor
 
 /**
- * Repository implementation that returns a Listing that loads data directly from the network
- * and uses the Item's name as the key to discover prev/next pages.
+ * 네트워크에서 직접 데이터를 로드하고 항목 이름을 사전/다음 페이지를 검색하는 키로 사용하는 목록을 반환하는 리포지토리 구현.
  */
 class InMemoryByItemRepositoryGCheckListSearch(
         private val redditApi: GCheckListSearchWebClientApi,
@@ -68,13 +67,6 @@ class InMemoryByItemRepositoryGCheckListSearch(
     }
 }
 
-/**
- * A data source that uses the "name" field of posts as the key for next/prev pages.
- * <p>
- * Note that this is not the correct consumption of the Reddit API but rather shown here as an
- * alternative implementation which might be more suitable for your backend.
- * see PageKeyedSubredditDataSource for the other sample.
- */
 // ItemKeyedDataSource : Item-key 기반의 데이터를 가져올 때 사용 , PositionalDataSource : 위치 기반 데이터에 사용
 class GCheckListSearchItemKeyedDataSource(
         private val redditApi: GCheckListSearchWebClientApi,
@@ -88,11 +80,9 @@ class GCheckListSearchItemKeyedDataSource(
     private var retry: (() -> Any)? = null
 
     /**
-     * There is no sync on the state because paging will always call loadInitial first then wait
-     * for it to return some success value before calling loadAfter and we don't support loadBefore
-     * in this example.
-     * <p>
-     * See BoundaryCallback example for a more complete example on syncing multiple network states.
+     * 페이징은 항상 부하를 호출하므로 상태에 동기화가 없음.
+     * 먼저 초기화한 후 load를 호출하기 전에 load가 성공 값을 반환할 때까지 기다리세요.
+     * 여러 네트워크 상태 동기화에 대한 자세한 예는 경계콜백 예제를 참조.
      */
     val networkState = MutableLiveData<NetworkState>()
 
@@ -134,7 +124,6 @@ class GCheckListSearchItemKeyedDataSource(
                             call: Call<GCheckListSearchWebClientApi.ListingResponse>,
                             response: Response<GCheckListSearchWebClientApi.ListingResponse>) {
                         if (response.isSuccessful) {
-//origin                            val items = response.body()?.data?.items?.map { it.data } ?: emptyList()
                             val items = response.body()?.items?.map { it } ?: emptyList()
                             // clear retry since last request succeeded
                             retry = null
@@ -153,9 +142,7 @@ class GCheckListSearchItemKeyedDataSource(
     }
 
     /**
-     * The name field is a unique identifier for post items.
-     * (no it is not the title of the post :) )
-     * https://www.reddit.com/dev/api
+     * 이름 필드는 포스트 항목에 대한 고유 식별자.
      */
     override fun getKey(item: WebClientPostCheckListSearch): String = item.rnumindex
 
@@ -172,7 +159,6 @@ class GCheckListSearchItemKeyedDataSource(
 
         try {
             val response = request.execute()
-//origin            val items = response.body()?.data?.items?.map { it.data } ?: emptyList()
             val items = response.body()?.items?.map { it } ?: emptyList()
             retry = null
             networkState.postValue(NetworkState.LOADED)
@@ -190,9 +176,9 @@ class GCheckListSearchItemKeyedDataSource(
 }
 
 /**
- * A simple data source factory which also provides a way to observe the last created data source.
- * This allows us to channel its network request status etc back to the UI. See the Listing creation
- * in the Repository class.
+ * 마지막으로 생성된 데이터 소스를 관찰할 수 있는 방법을 제공하는 단순한 데이터 원본 팩토리.
+ * 이를 통해 네트워크 요청 상태 등을 UI로 다시 채널링할 수 있다.
+ * 리포지토리 클래스의 목록 작성을 참조.
  */
 class GCheckListSearchDataSourceFactory(
         private val redditApi: GCheckListSearchWebClientApi,

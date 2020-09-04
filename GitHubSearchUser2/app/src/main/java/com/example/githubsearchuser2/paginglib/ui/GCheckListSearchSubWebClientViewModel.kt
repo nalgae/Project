@@ -21,7 +21,7 @@ import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
 import com.example.githubsearchuser2.paginglib.repository.GCheckListSearchPostRepository
-// MutableLiveData 가 변경이 이루어지면, postsOfSubreddit 에 의해 WEB 이 호출되어 진다.
+
 class GCheckListSearchSubWebClientViewModel(private val repository: GCheckListSearchPostRepository) : ViewModel() {
     private val subUserID = MutableLiveData<String>()
     private var pageKey = 0
@@ -30,9 +30,9 @@ class GCheckListSearchSubWebClientViewModel(private val repository: GCheckListSe
     private val repoResult = map(subUserID) {
         repository.postsOfGCheckListSearch(it,pageKey,limitKey, searchUser, 30)
     }
-    val posts = switchMap(repoResult, { it.pagedList })!!
-    val networkState = switchMap(repoResult, { it.networkState })!!
-    val refreshState = switchMap(repoResult, { it.refreshState })!!
+    val posts = switchMap(repoResult, { it.pagedList })
+    val networkState = switchMap(repoResult, { it.networkState })
+    val refreshState = switchMap(repoResult, { it.refreshState })
 
     fun refresh() {
         repoResult.value?.refresh?.invoke()

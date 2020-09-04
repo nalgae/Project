@@ -26,8 +26,6 @@ import com.google.gson.annotations.SerializedName
         indices = [Index(value = ["subreddit"], unique = false)])
 
 data class WebClientPostCheckListSearch (
-        //@SerializedName("rnumindex")
-        //val rnumindex: String,
         @PrimaryKey
         @SerializedName("id")
         var rnumindex: String,

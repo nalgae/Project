@@ -43,9 +43,6 @@ class GCheckListSearchViewHolder(view: View, private val glide: GlideRequests)
     private var imgViewImgUrl : ImageView = view.findViewById(R.id.row_team_imgurl)
     private var post : WebClientPostCheckListSearch? = null
 
-    var striLiLWriteHeaderIDX: String? = null
-    lateinit var striLiLWriteNowDate: String
-
     companion object {
         fun create(parent: ViewGroup, glide: GlideRequests): GCheckListSearchViewHolder {
             val view = LayoutInflater.from(parent.context)
@@ -71,7 +68,7 @@ class GCheckListSearchViewHolder(view: View, private val glide: GlideRequests)
             if( !GCheckListSearchTextFragment.mTwoAdapterHeaderList!!.contains(item) )
                 GCheckListSearchTextFragment.mTwoAdapterHeaderList!!.add(item)
 
-            // 화면 갱신 (Test 했을 때 안하면 적용 안됨)
+            // 화면 갱신
             val mCommonTLibEx = CommonTLibEx()
             mCommonTLibEx.CheckListAllRangeChangedReceiver(mContext)
         }
@@ -94,7 +91,6 @@ class GCheckListSearchViewHolder(view: View, private val glide: GlideRequests)
             }
 
             if( checkBoxJobCheck.isChecked ) {
-                //post?.bCheckFlag = false // 결국 이 명령은 View 에 있는 CheckFlag 변경이므로 의미가 없다. View 는 안드로이드 내부에서 알아서 체크표시를 해준다.
                 val locidx = GCheckListSearchFragment2.model.posts.value!!.indexOf(post) // paginglib livedata 에서 읽어온 데이터 중에 해당 데이터 검색해서 index 반환 2/2
                 val item = GCheckListSearchFragment2.model.posts.value!!.get(locidx) // index 에 해당하는 데이터 읽음
                 if (item != null) {
@@ -102,7 +98,6 @@ class GCheckListSearchViewHolder(view: View, private val glide: GlideRequests)
                     itemView.tag = item // 데이터 값 갱신
                 }
             } else {
-                //post?.bCheckFlag = true // 결국 이 명령은 View 에 있는 CheckFlag 변경이므로 의미가 없다. View 는 안드로이드 내부에서 알아서 체크표시를 해준다.
                 val locidx = GCheckListSearchFragment2.model.posts.value!!.indexOf(post) // paginglib livedata 에서 읽어온 데이터 중에 해당 데이터 검색해서 index 반환
                 val item = GCheckListSearchFragment2.model.posts.value!!.get(locidx) // index 에 해당하는 데이터 읽음
                 if (item != null) {
@@ -119,16 +114,8 @@ class GCheckListSearchViewHolder(view: View, private val glide: GlideRequests)
         textViewName.text = post?.login
         textViewID.text = post?.rnumindex
         textViewHTMLUrl.text = post?.html_url
-        //checkBoxJobCheck.isClickable = false
         checkBoxJobCheck.isChecked = post?.bCheckFlag!!
-        //checkBoxJobCheck.isClickable = true
 
-//        val item = position
-//            textViewBody.text = post?.tHeaderBody
-//            textViewBodyNum.text = "(" + post?.rnumindex + ")"
-//            textViewStatus.text = ""
-//            textViewStatus.setTextColor(Color.parseColor("#000000"))
-//            textViewStatus.setTypeface(null, Typeface.NORMAL)
 
         val strDataURL = post.avatar_url
         if ( strDataURL.startsWith("http") ) {
@@ -145,7 +132,6 @@ class GCheckListSearchViewHolder(view: View, private val glide: GlideRequests)
 
     fun updateScore(item: WebClientPostCheckListSearch?) {
         post = item
-//        score.text = "${item?.score ?: 0}"
     }
 
 }
